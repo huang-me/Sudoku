@@ -92,7 +92,7 @@ void Sudoku::flip(int kind) {
 }
 
 void Sudoku::solve() {
-    for(int row=0;row<9;row++) {
-        
+    for(int row=0; row<9; row++) {
+
     }
 }
