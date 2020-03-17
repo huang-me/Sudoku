@@ -6,3 +6,6 @@ output : solve.cpp transform.cpp generate.cpp
 
 rm : solve transform generate
 	rm -f solve transform generate
+
+style : *.cpp
+	astyle --style=google --indent=spaces=4 --suffix=none *.cpp

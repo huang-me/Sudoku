@@ -6,6 +6,9 @@
  * You can modify this file if needed.             *
  ***************************************************/
 
+#include <string>
+using namespace std;
+
 class Sudoku
 {
 public:
@@ -15,7 +18,7 @@ public:
     static Sudoku generate();
 
     // transform
-    void swapNum(int x, int y);
+    void swapNum(char x, char y);
     void swapRow(int x, int y);
     void swapCol(int x, int y);
     void rotate(int x);
@@ -23,6 +26,12 @@ public:
 
     // solve
     int solve();
+
+    // matrix index
+    string matrix[100];
+    string temp[100];
+
+
 };
 
 #endif // SUDOKU_H
