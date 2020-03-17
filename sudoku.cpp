@@ -90,3 +90,9 @@ void Sudoku::flip(int kind) {
         temp[irow] = matrix[irow];
     }
 }
+
+void Sudoku::solve() {
+    for(int row=0;row<9;row++) {
+        
+    }
+}

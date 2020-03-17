@@ -24,11 +24,12 @@ class Sudoku {
     void flip(int x);
 
     // solve
-    int solve();
+    void solve();
 
     // matrix index
     string matrix[100];
     string temp[100];
+    int intMatrix[9][9];
 
 
 };
