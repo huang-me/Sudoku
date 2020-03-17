@@ -86,7 +86,21 @@ int main()
         }
         // up-down or left-right flip
         else if(sudoku[i][0] == '5'){
-
+            int flipKind = (int)sudoku[i][2] - 48;
+            // up-down flip
+            if(flipKind == 0){
+                for(int row=0;row<matrixSize;row++){
+                    output[row] = temp[8-row];
+                }
+            }
+            // left-right flip
+            else{
+                for(int row=0;row<matrixSize;row++){
+                    for(int col=0;col<width;col++){
+                        output[row][col] = temp[row][16 - col];
+                    }
+                }
+            }
         }
     }
 
