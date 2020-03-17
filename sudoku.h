@@ -9,9 +9,8 @@
 #include <string>
 using namespace std;
 
-class Sudoku
-{
-public:
+class Sudoku {
+  public:
     Sudoku();
 
     // generate
