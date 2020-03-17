@@ -49,8 +49,8 @@ void Sudoku::swapCol(int col1, int col2) {
     for(int j=0; j<9; j++) {
         for(int i=0; i<5; i+=2) {
             tmp = matrix[j][col2+i];
-            matrix[col2+i] = matrix[col1+i];
-            matrix[col2+i] = tmp;
+            matrix[j][col2+i] = matrix[j][col1+i];
+            matrix[j][col1+i] = tmp;
         }
         temp[j] = matrix[j];
     }
