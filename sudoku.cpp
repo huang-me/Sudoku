@@ -8,6 +8,13 @@
 using namespace std;
 
 Sudoku::Sudoku() {
+    for(int i=0; i<9; i++){
+        for(int j=0; j<9; j++){
+            for(int k=0; k<9; k++){
+                exist[i][j][k] = 0;
+            }
+        }
+    }
 }
 
 void Sudoku::generate() {
@@ -165,13 +172,11 @@ void Sudoku::flip(int kind) {
 }
 
 void Sudoku::solve() {
-    // initialze the exist array
-    for(int i=0; i<9; i++) exist[i] = 0;
+    rowPos = -1;
+    colPos = -1;
 
     // find the first space
     for(int row=0; row<9; row++) {
-        rowPos = -1;
-        colPos = -1;
         for(int col=0; col<9; col++) {
             if(intMatrix[row][col] == 0) {
                 rowPos = row;
@@ -184,20 +189,33 @@ void Sudoku::solve() {
 
     // find the num in the same row
     for(int i=0; i<9; i++) {
-        cout << "test\t" << intMatrix[rowPos][i] << endl;
-        if(intMatrix[rowPos][i] != 0 && find(begin(exist), end(exist), intMatrix[rowPos][i]) != end(exist)) {
-            for(int j=0; j<9 ; j++) {
-                if(exist[j] == intMatrix[rowPos][i]) ;
-                else if(exist[j] == 0) {
-                    exist[j] = intMatrix[rowPos][i];
-                    break;
-                }
-            }
-            cout << endl << "this is the exist";
-            for(int i=0; i<9; i++) {
-                cout << exist[i];
-            }
-            cout << endl;
+        if(exist[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
+        if(exist[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
+    }
+
+    // set the start row or column
+    if(rowPos < 3) rowstart = 0;
+    else if(rowPos > 2 && rowPos < 6) rowstart = 3;
+    else rowstart = 6;
+    if(colPos < 3) colstart = 0;
+    else if(colPos > 2 && colPos < 6) colstart = 3;
+    else colstart = 6;
+
+    // find the block
+    for(int i=0; i<3; i++) {
+        for(int j=0; j<3; j++) {
+            if(exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] != 1) exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] = 1;
+        }
+    }
+    for(int i=0;i<9;i++) {
+        cout << i << ":" << exist[rowPos][colPos][i] << " ";
+    }
+    cout << "row and col\t" << rowPos << "," << colPos << endl;
+    // recursive the problem
+    for(int i=0;i<9;i++) {
+        if(exist[rowPos][colPos][i] != 1) {
+            intMatrix[rowPos][colPos] = i;
+            solve();
         }
     }
 }

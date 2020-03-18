@@ -29,9 +29,10 @@ class Sudoku {
     // matrix index
     string matrix[100];
     string temp[100];
-    int intMatrix[9][9];
+    int intMatrix[9][9], ans[9][9];
     int rowPos, colPos;
-    int exist[9];
+    int exist[9][9][9];
+    int rowstart, colstart;
 
 
 };
