@@ -12,7 +12,7 @@ Sudoku::Sudoku() {
 
 void Sudoku::generate() {
     // initialize the matrix to zero
-    for(int row=0;row<9;row++){
+    for(int row=0; row<9; row++) {
         matrix[row] = "0 0 0 0 0 0 0 0 0";
     }
     // give the matrix some value
@@ -50,32 +50,28 @@ void Sudoku::generate() {
     matrix[8][16] = '9';
 
     // copy to temp
-    for(int i=0;i<9;i++) {
+    for(int i=0; i<9; i++) {
         temp[i] = matrix[i];
     }
 
     // get some random rotate or changes
     srand(time(NULL));
     int times = rand()%3+2;
-    for(int i=0;i<times;i++){
+    for(int i=0; i<times; i++) {
         int random = rand()%5+1;
         if(random == 1) {
             int ran1 = rand()%9, ran2 = rand()%9;
             swapNum(ran1, ran2);
-        }
-        else if(random == 2) {
+        } else if(random == 2) {
             int ran1 = rand()%3, ran2 = rand()%3;
             swapRow(ran1, ran2);
-        }
-        else if(random == 3) {
+        } else if(random == 3) {
             int ran1 = rand()%3, ran2 = rand()%3;
             swapCol(ran1, ran2);
-        }
-        else if(random == 4) {
+        } else if(random == 4) {
             int time = rand()%4;
             rotate(time);
-        }
-        else {
+        } else {
             int kind = rand()%2;
             flip(kind);
         }
@@ -202,6 +198,6 @@ void Sudoku::solve() {
                 cout << exist[i];
             }
             cout << endl;
-        } 
+        }
     }
 }

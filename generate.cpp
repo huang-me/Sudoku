@@ -11,7 +11,7 @@ int main() {
     sudoku.generate();
 
     // show the sudoku
-    for(int i=0;i<9;i++) {
+    for(int i=0; i<9; i++) {
         cout << sudoku.matrix[i] << endl;
     }
 
