@@ -12,6 +12,7 @@ Sudoku::Sudoku() {
         for(int j=0; j<9; j++){
             for(int k=0; k<9; k++){
                 exist[i][j][k] = 0;
+                existSave[i][j][k] = 0;
             }
         }
     }
@@ -171,7 +172,7 @@ void Sudoku::flip(int kind) {
     }
 }
 
-void Sudoku::solve() {
+int Sudoku::solve() {
     rowPos = -1;
     colPos = -1;
 
@@ -188,9 +189,11 @@ void Sudoku::solve() {
     }
 
     // find the num in the same row
-    for(int i=0; i<9; i++) {
+    for(int i=1; i<10; i++) {
         if(exist[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
         if(exist[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
+        if(existSave[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
+        if(existSave[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
     }
 
     // set the start row or column
@@ -207,15 +210,48 @@ void Sudoku::solve() {
             if(exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] != 1) exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] = 1;
         }
     }
-    for(int i=0;i<9;i++) {
+    for(int i=1;i<10;i++) {
         cout << i << ":" << exist[rowPos][colPos][i] << " ";
     }
     cout << "row and col\t" << rowPos << "," << colPos << endl;
     // recursive the problem
-    for(int i=0;i<9;i++) {
+    for(int i=1;i<10;i++) {
+        int end = -1;
+        // cout << rowPos << "&" << colPos << "*" << i << endl;
+        // for(int i=1;i<10;i++) {
+        //     cout << i << ":" << exist[rowPos][colPos][i] << " ";
+        // }
+        // cout << "row and column" << rowPos << colPos << endl;
         if(exist[rowPos][colPos][i] != 1) {
             intMatrix[rowPos][colPos] = i;
-            solve();
+            exist[rowPos][colPos][i] = 1;
+            
+            if(finish()) 
+                return 1;
+            else {
+                end = solve();
+                if(end == 0) {
+                    intMatrix[rowPos][colPos] = 0;
+                    continue;
+                }
+                else return 1;
+            }
         }
     }
+    for(int i=1;i<10;i++){
+        exist[rowPos][colPos][i] = existSave[rowPos][colPos][i];
+    }
+    return 0;
+}
+
+int Sudoku::finish() {
+    int count = 0;
+    for(int row=0; row<9; row++) {
+        for(int col=0; col<9; col++) {
+            if(intMatrix[row][col] == 0) count++;
+        }
+    }
+
+    if(count) return 0;
+    else return 1;
 }
