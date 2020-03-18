@@ -12,7 +12,6 @@ Sudoku::Sudoku() {
         for(int j=0; j<9; j++){
             for(int k=0; k<9; k++){
                 exist[i][j][k] = 0;
-                existSave[i][j][k] = 0;
             }
         }
     }
@@ -176,82 +175,51 @@ int Sudoku::solve() {
     rowPos = -1;
     colPos = -1;
 
-    // find the first space
-    for(int row=0; row<9; row++) {
-        for(int col=0; col<9; col++) {
-            if(intMatrix[row][col] == 0) {
-                rowPos = row;
-                colPos = col;
-                break;
-            }
-        }
-        if(rowPos != -1 && colPos != -1) break;
-    }
-
-    // find the num in the same row
-    for(int i=1; i<10; i++) {
-        if(exist[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
-        if(exist[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
-        if(existSave[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
-        if(existSave[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
-    }
-
-    // set the start row or column
-    if(rowPos < 3) rowstart = 0;
-    else if(rowPos > 2 && rowPos < 6) rowstart = 3;
-    else rowstart = 6;
-    if(colPos < 3) colstart = 0;
-    else if(colPos > 2 && colPos < 6) colstart = 3;
-    else colstart = 6;
-
-    // find the block
-    for(int i=0; i<3; i++) {
-        for(int j=0; j<3; j++) {
-            if(exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] != 1) exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] = 1;
-        }
-    }
-    for(int i=1;i<10;i++) {
-        cout << i << ":" << exist[rowPos][colPos][i] << " ";
-    }
-    cout << "row and col\t" << rowPos << "," << colPos << endl;
-    // recursive the problem
-    for(int i=1;i<10;i++) {
-        int end = -1;
-        // cout << rowPos << "&" << colPos << "*" << i << endl;
-        // for(int i=1;i<10;i++) {
-        //     cout << i << ":" << exist[rowPos][colPos][i] << " ";
-        // }
-        // cout << "row and column" << rowPos << colPos << endl;
-        if(exist[rowPos][colPos][i] != 1) {
-            intMatrix[rowPos][colPos] = i;
-            exist[rowPos][colPos][i] = 1;
-            
-            if(finish()) 
-                return 1;
-            else {
-                end = solve();
-                if(end == 0) {
-                    intMatrix[rowPos][colPos] = 0;
-                    continue;
+    int count = 0, loop = 0;
+    do{
+        // find the possiable ans of all spaces
+        for(int row=0; row<9; row++) {
+            for(int col=0; col<9; col++) {
+                if(intMatrix[row][col] == 0) {
+                    count += 1;
+                    rowPos = row;
+                    colPos = col;
+                    // find the space with same row or column
+                    for(int i=1;i<=9;i++) {
+                        if(exist[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
+                        if(exist[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
+                    }
+                    // find space in the same block
+                    if(rowPos < 3) rowstart = 0;
+                    else if(rowPos > 2 && rowPos < 6) rowstart = 3;
+                    else rowstart = 6;
+                    if(colPos < 3) colstart = 0;
+                    else if(colPos > 2 && colPos < 6) colstart = 3;
+                    else colstart = 6;
+                    for(int i=0; i<3; i++) {
+                        for(int j=0; j<3; j++) {
+                            if(exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] != 1) exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] = 1;
+                        }
+                    }
                 }
-                else return 1;
             }
         }
-    }
-    for(int i=1;i<10;i++){
-        exist[rowPos][colPos][i] = existSave[rowPos][colPos][i];
-    }
-    return 0;
-}
 
-int Sudoku::finish() {
-    int count = 0;
-    for(int row=0; row<9; row++) {
-        for(int col=0; col<9; col++) {
-            if(intMatrix[row][col] == 0) count++;
+        // test whether there's space with only 1 possiable ans
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                int possiable = 0, empt = 0;
+                for(int k=1; k<=9; k++){
+                    if(exist[i][j][k] == 0) {
+                        possiable += 1;
+                        empt = k;
+                    }
+                }
+                if(possiable == 1) intMatrix[i][j] = empt;
+            }
         }
-    }
-
-    if(count) return 0;
-    else return 1;
+        loop++;
+        if(loop > 500) break;
+    }while(count);
+    
 }
