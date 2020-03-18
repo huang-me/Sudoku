@@ -8,9 +8,9 @@
 using namespace std;
 
 Sudoku::Sudoku() {
-    for(int i=0; i<9; i++){
-        for(int j=0; j<9; j++){
-            for(int k=0; k<9; k++){
+    for(int i=0; i<9; i++) {
+        for(int j=0; j<9; j++) {
+            for(int k=0; k<10; k++) {
                 exist[i][j][k] = 0;
             }
         }
@@ -175,51 +175,45 @@ int Sudoku::solve() {
     rowPos = -1;
     colPos = -1;
 
-    int count = 0, loop = 0;
-    do{
-        // find the possiable ans of all spaces
-        for(int row=0; row<9; row++) {
-            for(int col=0; col<9; col++) {
-                if(intMatrix[row][col] == 0) {
-                    count += 1;
-                    rowPos = row;
-                    colPos = col;
-                    // find the space with same row or column
-                    for(int i=1;i<=9;i++) {
-                        if(exist[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
-                        if(exist[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
-                    }
-                    // find space in the same block
-                    if(rowPos < 3) rowstart = 0;
-                    else if(rowPos > 2 && rowPos < 6) rowstart = 3;
-                    else rowstart = 6;
-                    if(colPos < 3) colstart = 0;
-                    else if(colPos > 2 && colPos < 6) colstart = 3;
-                    else colstart = 6;
-                    for(int i=0; i<3; i++) {
-                        for(int j=0; j<3; j++) {
-                            if(exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] != 1) exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] = 1;
-                        }
+    // find the possiable ans of all spaces
+    for(int row=0; row<9; row++) {
+        for(int col=0; col<9; col++) {
+            if(intMatrix[row][col] == 0) {
+                rowPos = row;
+                colPos = col;
+                // find the space with same row or column
+                for(int i=0; i<9; i++) {
+                    if(exist[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
+                    if(exist[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
+                }
+                // find space in the same block
+                if(rowPos < 3) rowstart = 0;
+                else if(rowPos > 2 && rowPos < 6) rowstart = 3;
+                else rowstart = 6;
+                if(colPos < 3) colstart = 0;
+                else if(colPos > 2 && colPos < 6) colstart = 3;
+                else colstart = 6;
+                for(int i=0; i<3; i++) {
+                    for(int j=0; j<3; j++) {
+                        if(exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] != 1) exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] = 1;
                     }
                 }
             }
         }
+    }
 
-        // test whether there's space with only 1 possiable ans
-        for(int i=0; i<9; i++){
-            for(int j=0; j<9; j++){
-                int possiable = 0, empt = 0;
-                for(int k=1; k<=9; k++){
-                    if(exist[i][j][k] == 0) {
-                        possiable += 1;
-                        empt = k;
-                    }
+    // test whether there's space with only 1 possiable ans
+    for(int i=0; i<9; i++) {
+        for(int j=0; j<9; j++) {
+            int possiable = 0, empt = 0;
+            for(int k=1; k<=9; k++) {
+                if(exist[i][j][k] == 0) {
+                    possiable += 1;
+                    empt = k;
                 }
-                if(possiable == 1) intMatrix[i][j] = empt;
             }
+            if(possiable == 1) intMatrix[i][j] = empt;
         }
-        loop++;
-        if(loop > 500) break;
-    }while(count);
-    
+    }
+
 }
