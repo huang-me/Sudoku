@@ -2,10 +2,85 @@
 #include <string>
 #include <algorithm>
 #include <iterator>
+#include <cstdlib>
+#include <ctime>
 #include "sudoku.h"
 using namespace std;
 
 Sudoku::Sudoku() {
+}
+
+void Sudoku::generate() {
+    // initialize the matrix to zero
+    for(int row=0;row<9;row++){
+        matrix[row] = "0 0 0 0 0 0 0 0 0";
+    }
+    // give the matrix some value
+    matrix[0][0] = '3';
+    matrix[0][4] = '2';
+    matrix[0][10] = '5';
+    matrix[0][12] = '6';
+    matrix[0][14] = '9';
+    matrix[1][2] = '4';
+    matrix[1][8] = '9';
+    matrix[1][10] = '6';
+    matrix[1][14] = '3';
+    matrix[2][2] = '5';
+    matrix[2][10] = '8';
+    matrix[3][0] = '1';
+    matrix[3][2] = '9';
+    matrix[3][8] = '8';
+    matrix[3][12] = '7';
+    matrix[3][16] = '3';
+    matrix[5][0] = '5';
+    matrix[5][4] = '7';
+    matrix[5][8] = '3';
+    matrix[5][14] = '6';
+    matrix[5][16] = '1';
+    matrix[6][6] = '8';
+    matrix[6][14] = '2';
+    matrix[7][2] = '8';
+    matrix[7][6] = '9';
+    matrix[7][8] = '6';
+    matrix[7][14] = '7';
+    matrix[8][2] = '6';
+    matrix[8][4] = '5';
+    matrix[8][6] = '7';
+    matrix[8][12] = '3';
+    matrix[8][16] = '9';
+
+    // copy to temp
+    for(int i=0;i<9;i++) {
+        temp[i] = matrix[i];
+    }
+
+    // get some random rotate or changes
+    srand(time(NULL));
+    int times = rand()%3+2;
+    for(int i=0;i<times;i++){
+        int random = rand()%5+1;
+        if(random == 1) {
+            int ran1 = rand()%9, ran2 = rand()%9;
+            swapNum(ran1, ran2);
+        }
+        else if(random == 2) {
+            int ran1 = rand()%3, ran2 = rand()%3;
+            swapRow(ran1, ran2);
+        }
+        else if(random == 3) {
+            int ran1 = rand()%3, ran2 = rand()%3;
+            swapCol(ran1, ran2);
+        }
+        else if(random == 4) {
+            int time = rand()%4;
+            rotate(time);
+        }
+        else {
+            int kind = rand()%2;
+            flip(kind);
+        }
+    }
+
 }
 
 void Sudoku::swapNum(char x, char y) {

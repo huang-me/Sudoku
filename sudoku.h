@@ -14,7 +14,7 @@ class Sudoku {
     Sudoku();
 
     // generate
-    static Sudoku generate();
+    void generate();
 
     // transform
     void swapNum(char x, char y);
