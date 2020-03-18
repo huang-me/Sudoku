@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <iterator>
 #include "sudoku.h"
 using namespace std;
 
@@ -92,7 +94,39 @@ void Sudoku::flip(int kind) {
 }
 
 void Sudoku::solve() {
-    for(int row=0; row<9; row++) {
+    // initialze the exist array
+    for(int i=0; i<9; i++) exist[i] = 0;
 
+    // find the first space
+    for(int row=0; row<9; row++) {
+        rowPos = -1;
+        colPos = -1;
+        for(int col=0; col<9; col++) {
+            if(intMatrix[row][col] == 0) {
+                rowPos = row;
+                colPos = col;
+                break;
+            }
+        }
+        if(rowPos != -1 && colPos != -1) break;
+    }
+
+    // find the num in the same row
+    for(int i=0; i<9; i++) {
+        cout << "test\t" << intMatrix[rowPos][i] << endl;
+        if(intMatrix[rowPos][i] != 0 && find(begin(exist), end(exist), intMatrix[rowPos][i]) != end(exist)) {
+            for(int j=0; j<9 ; j++) {
+                if(exist[j] == intMatrix[rowPos][i]) ;
+                else if(exist[j] == 0) {
+                    exist[j] = intMatrix[rowPos][i];
+                    break;
+                }
+            }
+            cout << endl << "this is the exist";
+            for(int i=0; i<9; i++) {
+                cout << exist[i];
+            }
+            cout << endl;
+        } 
     }
 }
