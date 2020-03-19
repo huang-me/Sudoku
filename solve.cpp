@@ -19,14 +19,16 @@ int main() {
     }
 
     // solve the sudoku
-    sudoku.solve();
+    if(sudoku.solve() == 0) {
 
-    // show matrix
-    for(int i=0; i<9; i++) {
-        for(int col=0; col<9; col++) {
-            cout << sudoku.intMatrix[i][col];
+        // show matrix
+        for(int i=0; i<9; i++) {
+            for(int col=0; col<9; col++) {
+                cout << sudoku.intMatrix[i][col];
+            }
+            cout << endl;
         }
-        cout << endl;
+
     }
     return 0;
 }
