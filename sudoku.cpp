@@ -215,7 +215,7 @@ int Sudoku::solve() {
 
     // recursive the problem
     for(int i=1; i<10; i++) {
-        cout << "row,col" << rowPos << "," << colPos << "  i " << i << ":" << exist[rowPos][colPos][i] << endl;
+    //     cout << "row,col" << rowPos << "," << colPos << "  i " << i << ":" << exist[rowPos][colPos][i] << endl;
         if(exist[rowPos][colPos][i] == 0) {
             // cout << "in\n";
             intMatrix[rowPos][colPos] = i;

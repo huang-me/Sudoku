@@ -21,12 +21,12 @@ int main() {
     // solve the sudoku
     int sol = sudoku.solve();
     if(sol == 0) {
-        
+
         // show matrix
         cout << "1" << endl;
         for(int i=0; i<9; i++) {
             for(int col=0; col<9; col++) {
-                cout << to_string(sudoku.intMatrix[i][col]);
+                cout << sudoku.intMatrix[i][col];
                 if(col < 8) cout << " ";
             }
             cout << endl;
