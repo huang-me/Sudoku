@@ -22,7 +22,20 @@ int main() {
     int sol = sudoku.solve();
     if(sol == 0) {
 
+        // test whether there's still solution
+        // for(int i=0;i<9;i++) {
+        //     for(int j=0;j<9;j++) {
+        //         for(int k=1;k<10;k++) {
+        //             if(sudoku.exist[i][j][k] == 0) {
+        //                 cout << "2" << endl;
+        //                 return 0;
+        //             }
+        //         }
+        //     }
+        // }
+
         // show matrix
+        cout << "1" << endl;
         for(int i=0; i<9; i++) {
             for(int col=0; col<9; col++) {
                 cout << sudoku.intMatrix[i][col];
