@@ -10,7 +10,7 @@ using namespace std;
 Sudoku::Sudoku() {
     for(int i=0; i<9; i++){
         for(int j=0; j<9; j++){
-            for(int k=0; k<9; k++){
+            for(int k=0; k<10; k++){
                 exist[i][j][k] = 0;
             }
         }
@@ -171,9 +171,9 @@ void Sudoku::flip(int kind) {
     }
 }
 
-void Sudoku::solve() {
-    rowPos = -1;
-    colPos = -1;
+int Sudoku::solve() {
+    int rowPos = -1;
+    int colPos = -1;
 
     // find the first space
     for(int row=0; row<9; row++) {
@@ -183,9 +183,12 @@ void Sudoku::solve() {
                 colPos = col;
                 break;
             }
+            // cout << intMatrix[row][col] << ",";
         }
+        // cout << endl;
         if(rowPos != -1 && colPos != -1) break;
     }
+    if(rowPos == -1 && colPos == -1) return 0;
 
     // find the num in the same row
     for(int i=0; i<9; i++) {
@@ -207,15 +210,25 @@ void Sudoku::solve() {
             if(exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] != 1) exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] = 1;
         }
     }
-    for(int i=0;i<9;i++) {
-        cout << i << ":" << exist[rowPos][colPos][i] << " ";
-    }
-    cout << "row and col\t" << rowPos << "," << colPos << endl;
+
+    // for(int i=1;i<=9;i++) {
+    //     cout << i << ":" << exist[rowPos][colPos][i] << " ";
+    // }
+    // cout << "row and col\t" << rowPos << "," << colPos << endl;
+
     // recursive the problem
-    for(int i=0;i<9;i++) {
-        if(exist[rowPos][colPos][i] != 1) {
+    for(int i=1;i<10;i++) {
+        if(exist[rowPos][colPos][i] == 0) {
             intMatrix[rowPos][colPos] = i;
-            solve();
+            exist[rowPos][colPos][i] == 1;
+            if(solve() == 0) return 0;
+            
+            // cout << rowPos << ":" << colPos  << ";" << i << endl;
+            intMatrix[rowPos][colPos] = 0;
         }
     }
+    for(int i=1; i<10; i++) {
+        exist[rowPos][colPos][i] = 0;
+    }
+    return -1;
 }

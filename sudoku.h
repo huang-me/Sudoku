@@ -24,14 +24,13 @@ class Sudoku {
     void flip(int x);
 
     // solve
-    void solve();
+    int solve();
 
     // matrix index
     string matrix[100];
     string temp[100];
     int intMatrix[9][9], ans[9][9];
-    int rowPos, colPos;
-    int exist[9][9][9];
+    int exist[9][9][10];
     int rowstart, colstart;
 
 
