@@ -35,7 +35,7 @@ int main() {
         // }
 
         // show matrix
-        cout << "1" << endl;
+        cout << "// Has unique solution\n1" << endl;
         for(int i=0; i<9; i++) {
             for(int col=0; col<9; col++) {
                 cout << sudoku.intMatrix[i][col];
