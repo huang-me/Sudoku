@@ -15,6 +15,8 @@ Sudoku::Sudoku() {
             }
         }
     }
+    firstRow = 9;
+    firstCol = 9;
 }
 
 void Sudoku::generate() {
@@ -181,6 +183,8 @@ int Sudoku::solve() {
             if(intMatrix[row][col] == 0) {
                 rowPos = row;
                 colPos = col;
+                if(row < firstRow) firstRow = row;
+                if(col < firstCol) firstCol = col;
                 break;
             }
         }
@@ -219,6 +223,8 @@ int Sudoku::solve() {
             intMatrix[rowPos][colPos] = 0;
         }
     }
+    
+    // reset the value of exist
     for(int i=1; i<10; i++) {
         exist[rowPos][colPos][i] = 0;
     }
