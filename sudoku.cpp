@@ -276,9 +276,9 @@ void Sudoku::readIn() {
     int in_board[SIZE];
     _zeronum=0;
     for(i=0; i<SIZE; i++) {
-        cin>>in_board[i];
+        cin >> in_board[i];
         //count the zero's number
-        if(in_board[i]==0) {
+        if(in_board[i] == 0) {
             _zeronum++;
         }
     }
