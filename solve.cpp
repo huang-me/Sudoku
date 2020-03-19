@@ -1,8 +1,7 @@
 #include "sudoku.h"
 #include "sudoku.cpp"
 
-int main()
-{
+int main() {
     Sudoku sudoku;
     sudoku.readIn();
     sudoku.solve();

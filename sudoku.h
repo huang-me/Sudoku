@@ -39,7 +39,7 @@ class Sudoku {
     bool checkQuestion();
     bool checkIndexCorrect(int index);
     void trace(int num);
-        
+
     int _board[SIZE];
     int _zeronum;
     int _solvenum;
