@@ -8,9 +8,9 @@
 using namespace std;
 
 Sudoku::Sudoku() {
-    for(int i=0; i<9; i++){
-        for(int j=0; j<9; j++){
-            for(int k=0; k<10; k++){
+    for(int i=0; i<9; i++) {
+        for(int j=0; j<9; j++) {
+            for(int k=0; k<10; k++) {
                 exist[i][j][k] = 0;
             }
         }
@@ -183,9 +183,7 @@ int Sudoku::solve() {
                 colPos = col;
                 break;
             }
-            // cout << intMatrix[row][col] << ",";
         }
-        // cout << endl;
         if(rowPos != -1 && colPos != -1) break;
     }
     if(rowPos == -1 && colPos == -1) return 0;
@@ -211,19 +209,13 @@ int Sudoku::solve() {
         }
     }
 
-    // for(int i=1;i<=9;i++) {
-    //     cout << i << ":" << exist[rowPos][colPos][i] << " ";
-    // }
-    // cout << "row and col\t" << rowPos << "," << colPos << endl;
-
     // recursive the problem
-    for(int i=1;i<10;i++) {
+    for(int i=1; i<10; i++) {
         if(exist[rowPos][colPos][i] == 0) {
             intMatrix[rowPos][colPos] = i;
             exist[rowPos][colPos][i] == 1;
             if(solve() == 0) return 0;
-            
-            // cout << rowPos << ":" << colPos  << ";" << i << endl;
+
             intMatrix[rowPos][colPos] = 0;
         }
     }
