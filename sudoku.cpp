@@ -1,22 +1,17 @@
 #include <iostream>
 #include <string>
+#include<cstring>
 #include <algorithm>
-#include <iterator>
+// #include <iterator>
 #include <cstdlib>
 #include <ctime>
 #include "sudoku.h"
 using namespace std;
 
 Sudoku::Sudoku() {
-    for(int i=0; i<9; i++) {
-        for(int j=0; j<9; j++) {
-            for(int k=0; k<10; k++) {
-                exist[i][j][k] = 0;
-            }
-        }
-    }
-    firstRow = 9;
-    firstCol = 9;
+    int empty[SIZE];
+    memset(empty,0,sizeof(empty));
+    setBoard(empty);
 }
 
 void Sudoku::generate() {
@@ -173,62 +168,170 @@ void Sudoku::flip(int kind) {
     }
 }
 
-int Sudoku::solve() {
-    int rowPos = -1;
-    int colPos = -1;
+void Sudoku::setBoard(const int set_board[])
+{
+    int i;
+    for(i=0;i<SIZE;i++)
+    {
+        _board[i]=set_board[i];
+    }
+}
 
-    // find the first space
-    for(int row=0; row<9; row++) {
-        for(int col=0; col<9; col++) {
-            if(intMatrix[row][col] == 0) {
-                rowPos = row;
-                colPos = col;
-                if(row < firstRow) firstRow = row;
-                if(col < firstCol) firstCol = col;
-                break;
+void Sudoku::printSolve()
+{//print out the answer which store in _solveboard[]
+    int i;
+    for(i=0;i<SIZE;i++)
+    {
+        cout<<_solveboard[i];
+        cout<<(((i+1)%9==0)?'\n':' ');
+    }
+}
+
+bool Sudoku::checkQuestion()
+{//because the question maybe wrong, solve after checking
+    int i;
+    for(i=0;i<SIZE;i++)
+    {
+        if(_board[i]!=0)
+        {
+            if(checkIndexCorrect(i)==false)
+            {
+                return false;
             }
         }
-        if(rowPos != -1 && colPos != -1) break;
     }
-    if(rowPos == -1 && colPos == -1) return 0;
+    return true;
+}
 
-    // find the num in the same row
-    for(int i=0; i<9; i++) {
-        if(exist[rowPos][colPos][intMatrix[rowPos][i]] != 1) exist[rowPos][colPos][intMatrix[rowPos][i]] = 1;
-        if(exist[rowPos][colPos][intMatrix[i][colPos]] != 1) exist[rowPos][colPos][intMatrix[i][colPos]] = 1;
-    }
-
-    // set the start row or column
-    if(rowPos < 3) rowstart = 0;
-    else if(rowPos > 2 && rowPos < 6) rowstart = 3;
-    else rowstart = 6;
-    if(colPos < 3) colstart = 0;
-    else if(colPos > 2 && colPos < 6) colstart = 3;
-    else colstart = 6;
-
-    // find the block
-    for(int i=0; i<3; i++) {
-        for(int j=0; j<3; j++) {
-            if(exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] != 1) exist[rowPos][colPos][intMatrix[rowstart+i][colstart+i]] = 1;
+bool Sudoku::checkIndexCorrect(int index)
+{
+    int col,row,cell,i,j;
+    col=index%9;
+    row=static_cast<int>(index/9);
+    cell=(static_cast<int>(row/3))*3+(static_cast<int>(col/3));
+    for(i=0,j=9*row;i<9;i++,j++)
+    {
+        if(_board[index]==_board[j]&&j!=index)
+        {//if check index has the same number then return false
+            return false;
         }
     }
-
-    // recursive the problem
-    for(int i=1; i<10; i++) {
-    //     cout << "row,col" << rowPos << "," << colPos << "  i " << i << ":" << exist[rowPos][colPos][i] << endl;
-        if(exist[rowPos][colPos][i] == 0) {
-            // cout << "in\n";
-            intMatrix[rowPos][colPos] = i;
-            exist[rowPos][colPos][i] == 1;
-            if(solve() == 0) return 0;
-
-            intMatrix[rowPos][colPos] = 0;
+    for(i=0,j=col;i<9;i++,j+=9)//col check
+    {
+        if(_board[index]==_board[j]&&j!=index)
+        {//if check index has the same number then return false
+            return false;
         }
     }
-
-    // reset the value of exist
-    for(int i=1; i<10; i++) {
-        exist[rowPos][colPos][i] = 0;
+    switch(cell)//cell check
+    {//using switch to get the cell's first index
+        case 0:
+        case 1:
+        case 2:
+            j=cell*3;
+            break;
+        case 3:
+        case 4:
+        case 5:
+            j=cell*3+18;
+            break;
+        case 6:
+        case 7:
+        case 8:
+            j=cell*3+36;
+            break;
     }
-    return -1;
+    for(i=0,j;i<9;i++,j+=((j%3==2)?7:1))
+    {
+        if(_board[index]==_board[j]&&j!=index)
+        {//if check index has the same number then return false
+            return false;
+        }
+    }
+    return true;//if all correct return true
+}
+
+void Sudoku::trace(int num)
+{
+    int i,solve_count=0;
+    if(num==SIZE)//trace finish
+    {
+        for(i=0;i<SIZE;i++)
+        {//store first solution to check have any other solution
+            _solveboard[i]=_board[i];
+        }
+        _solvenum++;
+        if(_solvenum>1)
+        {//more than 1 solution
+            return ;
+        }
+        else;
+    }
+    int col,row;
+    col=num%9;
+    row=static_cast<int>(num/9);
+    if(_board[num]==0)//find where can insert number
+    {
+        for(i=1;i<=9;i++)
+        {//insert number from 1 to 9
+            _board[num]=i;
+            if(checkIndexCorrect(num))
+                trace(num+1);
+        }
+        _board[num]=0;//back to up one level's for loop
+    }
+    else
+    {//if meet problem number, insert the next index
+        trace(num+1);
+    }
+}
+
+void Sudoku::readIn()
+{
+    int i;
+    int in_board[SIZE];
+    _zeronum=0;
+    for(i=0;i<SIZE;i++)
+    {
+        cin>>in_board[i];
+        //count the zero's number
+        if(in_board[i]==0)
+        {
+            _zeronum++;
+        }
+    }
+    setBoard(in_board);
+}
+
+void Sudoku::solve()
+{
+    int solve_count=0;
+    _solvenum=0;
+    //there is more than 1 solution if numbers are less than 17
+    if(checkQuestion()&&_zeronum>64)
+    {
+        cout<<2<<endl;
+    }
+    else if(checkQuestion())
+    {
+        trace(0);
+        solve_count++;
+        switch(_solvenum)
+        {
+            case 0://no solution
+                cout<<0;
+                break;
+            case 1://only 1 solution
+                cout<<1<<endl;
+                printSolve();
+                break;
+            default://more than 1 solution
+                cout<<2;
+                break;
+        }
+    }
+    else
+    {
+        cout<<0;
+    }
 }

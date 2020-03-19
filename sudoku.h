@@ -8,6 +8,7 @@
 
 #include <string>
 using namespace std;
+#define SIZE 81
 
 class Sudoku {
   public:
@@ -24,16 +25,25 @@ class Sudoku {
     void flip(int x);
 
     // solve
-    int solve();
+    void readIn();
+    void solve();
+    void setBoard(const int set_board[]);
 
     // matrix index
     string matrix[100];
     string temp[100];
-    int intMatrix[9][9];
-    int exist[9][9][10];
-    int rowstart, colstart;
-    int zeros[81];
-    int firstRow, firstCol;
+
+  private:
+    void printSolve();
+    // bool checkCorrect();
+    bool checkQuestion();
+    bool checkIndexCorrect(int index);
+    void trace(int num);
+        
+    int _board[SIZE];
+    int _zeronum;
+    int _solvenum;
+    int _solveboard[SIZE];
 
 };
 
