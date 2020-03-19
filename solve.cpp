@@ -35,10 +35,10 @@ int main() {
         // }
 
         // show matrix
-        cout << "// Has unique solution\n1" << endl;
+        cout << "1" << endl;
         for(int i=0; i<9; i++) {
             for(int col=0; col<9; col++) {
-                cout << sudoku.intMatrix[i][col];
+                cout << to_string(sudoku.intMatrix[i][col]);
                 if(col < 8) cout << " ";
             }
             cout << endl;
