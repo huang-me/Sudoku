@@ -31,7 +31,6 @@ int main() {
             cout << endl;
         }
 
-    }
-    else if(sol == -1) cout << "0" << endl;
+    } else if(sol == -1) cout << "0" << endl;
     return 0;
 }
