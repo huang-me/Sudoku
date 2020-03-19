@@ -174,6 +174,7 @@ void Sudoku::flip(int kind) {
 int Sudoku::solve() {
     rowPos = -1;
     colPos = -1;
+    int count = 0;
 
     // find the possiable ans of all spaces
     for(int row=0; row<9; row++) {
@@ -205,15 +206,33 @@ int Sudoku::solve() {
     // test whether there's space with only 1 possiable ans
     for(int i=0; i<9; i++) {
         for(int j=0; j<9; j++) {
-            int possiable = 0, empt = 0;
+            int possible = 0, empt = 0;
             for(int k=1; k<=9; k++) {
                 if(exist[i][j][k] == 0) {
-                    possiable += 1;
+                    possible += 1;
                     empt = k;
                 }
             }
-            if(possiable == 1) intMatrix[i][j] = empt;
+            if(possible == 1) {
+                intMatrix[i][j] = empt;
+            }
+            else if(possible > 1 && possible < 9) {
+                zeros[count++] = i*10+j;
+            }
         }
     }
+
+    for(int i=0;i<count;i++) {
+        // cout << count << ":" << zeros[i] << endl;
+        int tmpRow = zeros[i]/10, tmpCol = zeros[i]%10;
+        for(int j=1;j<10;j++) {
+            if(exist[tmpRow][tmpCol][i] == 0) {
+                exist[tmpRow][tmpCol][i] = 1;
+                intMatrix[tmpRow][tmpCol] = i;
+                solve();
+            }
+        }
+    }
+
 
 }

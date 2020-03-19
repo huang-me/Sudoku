@@ -32,7 +32,8 @@ class Sudoku {
     int intMatrix[9][9];
     int rowPos, colPos;
     int exist[9][9][10];
-    int rowstart, colstart;;;
+    int rowstart, colstart;
+    int zeros[81];
 
 };
 
