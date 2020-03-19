@@ -29,7 +29,7 @@ int main() {
                 cout << sudoku.intMatrix[i][col];
                 if(col < 8) cout << " ";
             }
-            cout << endl;
+            if(i < 8) cout << endl;
         }
 
     } 
