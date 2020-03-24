@@ -2,7 +2,6 @@
 #include <string>
 #include<cstring>
 #include <algorithm>
-// #include <iterator>
 #include <cstdlib>
 #include <ctime>
 #include "sudoku.h"
