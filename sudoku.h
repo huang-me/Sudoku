@@ -41,6 +41,7 @@ class Sudoku {
 
     int _board[SIZE];
     int _zeronum;
+    int _zeroarr[SIZE];
     int _solvenum;
     int _solveboard[SIZE];
 

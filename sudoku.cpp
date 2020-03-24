@@ -251,8 +251,22 @@ void Sudoku::trace(int num) {
         _solvenum++;
         if(_solvenum>1) {
             //more than 1 solution
-            return ;
-        } else;
+            cout << 2;
+            exit(0);
+            // return;
+        }
+        else {
+
+            for(i=_zeronum-1; i>=0; i--) {
+                for(int j=_board[_zeroarr[i]]+1; j<10; j++) {
+                    _board[_zeroarr[i]] = j;
+                    if(checkIndexCorrect(_zeroarr[i]))
+                        trace(_zeroarr[i]+1);
+                }
+                _board[_zeroarr[i]] = 0;
+            }
+
+        }
     }
     int col,row;
     col=num%9;
@@ -279,7 +293,7 @@ void Sudoku::readIn() {
         cin >> in_board[i];
         //count the zero's number
         if(in_board[i] == 0) {
-            _zeronum++;
+            _zeroarr[_zeronum++] = i;
         }
     }
     setBoard(in_board);
@@ -296,17 +310,17 @@ void Sudoku::solve() {
         solve_count++;
         switch(_solvenum) {
         case 0://no solution
-            cout<<0;
+            cout << 0;
             break;
         case 1://only 1 solution
-            cout<<1<<endl;
+            cout << 1 << endl;
             printSolve();
             break;
         default://more than 1 solution
-            cout<<2;
+            cout << 2;
             break;
         }
     } else {
-        cout<<0;
+        cout << 0;
     }
 }
