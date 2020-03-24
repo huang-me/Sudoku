@@ -316,7 +316,6 @@ void Sudoku::solve() {
         switch(_solvenum) {
         case 0://no solution
             cout << 0 << endl;
-            // printboard();
             break;
             // case 1://only 1 solution
             //     cout << 1 << endl;
