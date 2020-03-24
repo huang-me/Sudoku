@@ -184,6 +184,16 @@ void Sudoku::printSolve() {
     }
 }
 
+void Sudoku::printboard() {
+    //print out the answer which store in _solveboard[]
+    int i;
+    for(i=0; i<SIZE; i++) {
+        cout<<_board[i];
+        cout<<(((i+1)%9==0)?'\n':' ');
+    }
+}
+
+
 bool Sudoku::checkQuestion() {
     //because the question maybe wrong, solve after checking
     int i;
@@ -243,7 +253,15 @@ bool Sudoku::checkIndexCorrect(int index) {
 
 void Sudoku::trace(int num) {
     int i,solve_count=0;
+
+    // cout << num << endl;
+    // printboard();
+
     if(num==SIZE) { //trace finish
+
+        // cout << "test" << endl;
+        // printboard();
+
         for(i=0; i<SIZE; i++) {
             //store first solution to check have any other solution
             _solveboard[i]=_board[i];
@@ -258,14 +276,24 @@ void Sudoku::trace(int num) {
         else {
 
             for(i=_zeronum-1; i>=0; i--) {
-                for(int j=_board[_zeroarr[i]]+1; j<10; j++) {
-                    _board[_zeroarr[i]] = j;
-                    if(checkIndexCorrect(_zeroarr[i]))
-                        trace(_zeroarr[i]+1);
+                num = _zeroarr[i];
+                for(int j=_board[num]+1; j<10; j++) {
+                    _board[num] = j;
+                    if(checkIndexCorrect(num)) {
+                        // cout << "this is zeroarr : " << num << endl;
+                        trace(num+1);
+                    }
                 }
-                _board[_zeroarr[i]] = 0;
+                _board[num] = 0;
+                // printboard();
+                // cout << endl;
             }
-            return;
+
+            cout << 1 << endl;
+            printSolve();
+            exit(0);
+
+            // return;
 
         }
     }
@@ -297,6 +325,12 @@ void Sudoku::readIn() {
             _zeroarr[_zeronum++] = i;
         }
     }
+
+    // for(i=0; i<_zeronum; i++) {
+    //     cout << _zeroarr[i] << " ";
+    // }
+    // cout << endl;
+
     setBoard(in_board);
 }
 
@@ -313,13 +347,13 @@ void Sudoku::solve() {
         case 0://no solution
             cout << 0;
             break;
-        case 1://only 1 solution
-            cout << 1 << endl;
-            printSolve();
-            break;
-        default://more than 1 solution
-            cout << 2;
-            break;
+        // case 1://only 1 solution
+        //     cout << 1 << endl;
+        //     printSolve();
+        //     break;
+        // default://more than 1 solution
+        //     cout << 2;
+        //     break;
         }
     } else {
         cout << 0;

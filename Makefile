@@ -9,3 +9,6 @@ rm : solve transform generate
 
 style : *.cpp
 	astyle --style=google --indent=spaces=4 --suffix=none *.cpp *.h
+
+run : solve
+	./solve < t1.txt

@@ -35,6 +35,7 @@ class Sudoku {
 
   private:
     void printSolve();
+    void printboard();
     bool checkQuestion();
     bool checkIndexCorrect(int index);
     void trace(int num);
