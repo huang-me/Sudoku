@@ -300,7 +300,6 @@ void Sudoku::readIn() {
     _zeronum=0;
     for(i=0; i<SIZE; i++) {
         cin >> in_board[i];
-        cout << in_board[i];
         //count the zero's number
         if(in_board[i] == 0) {
             _zeroarr[_zeronum++] = i;
