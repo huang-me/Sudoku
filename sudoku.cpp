@@ -184,6 +184,15 @@ void Sudoku::printSolve() {
     }
 }
 
+void Sudoku::printboard() {
+    //print out the answer which store in _solveboard[]
+    int i;
+    for(i=0; i<SIZE; i++) {
+        cout<<_board[i];
+        cout<<(((i+1)%9==0)?'\n':' ');
+    }
+}
+
 bool Sudoku::checkQuestion() {
     //because the question maybe wrong, solve after checking
     int i;
@@ -317,7 +326,8 @@ void Sudoku::solve() {
         trace(0);
         switch(_solvenum) {
         case 0://no solution
-            cout << 0;
+            cout << 0 << endl;
+            printboard();
             break;
             // case 1://only 1 solution
             //     cout << 1 << endl;
@@ -328,6 +338,7 @@ void Sudoku::solve() {
             //     break;
         }
     } else {
-        cout << 0;
+        cout << 0 << endl;
+        printboard();
     }
 }
