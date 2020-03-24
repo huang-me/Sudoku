@@ -184,16 +184,6 @@ void Sudoku::printSolve() {
     }
 }
 
-void Sudoku::printboard() {
-    //print out the answer which store in _solveboard[]
-    int i;
-    for(i=0; i<SIZE; i++) {
-        cout<<_board[i];
-        cout<<(((i+1)%9==0)?'\n':' ');
-    }
-}
-
-
 bool Sudoku::checkQuestion() {
     //because the question maybe wrong, solve after checking
     int i;
@@ -254,13 +244,7 @@ bool Sudoku::checkIndexCorrect(int index) {
 void Sudoku::trace(int num) {
     int i,solve_count=0;
 
-    // cout << num << endl;
-    // printboard();
-
     if(num==SIZE) { //trace finish
-
-        // cout << "test" << endl;
-        // printboard();
 
         for(i=0; i<SIZE; i++) {
             //store first solution to check have any other solution
@@ -271,7 +255,6 @@ void Sudoku::trace(int num) {
             //more than 1 solution
             cout << 2;
             exit(0);
-            // return;
         }
         else {
 
@@ -280,13 +263,10 @@ void Sudoku::trace(int num) {
                 for(int j=_board[num]+1; j<10; j++) {
                     _board[num] = j;
                     if(checkIndexCorrect(num)) {
-                        // cout << "this is zeroarr : " << num << endl;
                         trace(num+1);
                     }
                 }
                 _board[num] = 0;
-                // printboard();
-                // cout << endl;
             }
 
             cout << 1 << endl;
@@ -320,29 +300,23 @@ void Sudoku::readIn() {
     _zeronum=0;
     for(i=0; i<SIZE; i++) {
         cin >> in_board[i];
+        cout << in_board[i];
         //count the zero's number
         if(in_board[i] == 0) {
             _zeroarr[_zeronum++] = i;
         }
     }
 
-    // for(i=0; i<_zeronum; i++) {
-    //     cout << _zeroarr[i] << " ";
-    // }
-    // cout << endl;
-
     setBoard(in_board);
 }
 
 void Sudoku::solve() {
-    int solve_count=0;
     _solvenum=0;
     //there is more than 1 solution if numbers are less than 17
     if(checkQuestion()&&_zeronum>64) {
         cout<<2<<endl;
     } else if(checkQuestion()) {
         trace(0);
-        solve_count++;
         switch(_solvenum) {
         case 0://no solution
             cout << 0;
