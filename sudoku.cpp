@@ -265,6 +265,7 @@ void Sudoku::trace(int num) {
                 }
                 _board[_zeroarr[i]] = 0;
             }
+            return;
 
         }
     }
