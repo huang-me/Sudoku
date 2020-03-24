@@ -188,7 +188,7 @@ void Sudoku::printboard() {
     //print out the answer which store in _solveboard[]
     int i;
     for(i=0; i<SIZE; i++) {
-        cout<<_board[i];
+        cout<<_ques[i];
         cout<<(((i+1)%9==0)?'\n':' ');
     }
 }
@@ -308,6 +308,7 @@ void Sudoku::readIn() {
     _zeronum=0;
     for(i=0; i<SIZE; i++) {
         cin >> in_board[i];
+        _ques[i] = in_board[i];
         //count the zero's number
         if(in_board[i] == 0) {
             _zeroarr[_zeronum++] = i;
@@ -339,6 +340,5 @@ void Sudoku::solve() {
         }
     } else {
         cout << 0 << endl;
-        printboard();
     }
 }
