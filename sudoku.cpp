@@ -255,8 +255,7 @@ void Sudoku::trace(int num) {
             //more than 1 solution
             cout << 2;
             exit(0);
-        }
-        else {
+        } else {
 
             for(i=_zeronum-1; i>=0; i--) {
                 num = _zeroarr[i];
@@ -320,13 +319,13 @@ void Sudoku::solve() {
         case 0://no solution
             cout << 0;
             break;
-        // case 1://only 1 solution
-        //     cout << 1 << endl;
-        //     printSolve();
-        //     break;
-        // default://more than 1 solution
-        //     cout << 2;
-        //     break;
+            // case 1://only 1 solution
+            //     cout << 1 << endl;
+            //     printSolve();
+            //     break;
+            // default://more than 1 solution
+            //     cout << 2;
+            //     break;
         }
     } else {
         cout << 0;
