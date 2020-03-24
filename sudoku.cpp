@@ -184,15 +184,6 @@ void Sudoku::printSolve() {
     }
 }
 
-void Sudoku::printboard() {
-    //print out the answer which store in _solveboard[]
-    int i;
-    for(i=0; i<SIZE; i++) {
-        cout<<_ques[i];
-        cout<<(((i+1)%9==0)?'\n':' ');
-    }
-}
-
 bool Sudoku::checkQuestion() {
     //because the question maybe wrong, solve after checking
     int i;
@@ -306,7 +297,6 @@ void Sudoku::readIn() {
     _zeronum=0;
     for(i=0; i<SIZE; i++) {
         cin >> in_board[i];
-        _ques[i] = in_board[i];
         //count the zero's number
         if(in_board[i] == 0) {
             _zeroarr[_zeronum++] = i;
@@ -325,7 +315,7 @@ void Sudoku::solve() {
         trace(0);
         switch(_solvenum) {
         case 0://no solution
-            cout << 1;
+            cout << 0 << endl;
             // printboard();
             break;
             // case 1://only 1 solution

@@ -35,13 +35,11 @@ class Sudoku {
 
   private:
     void printSolve();
-    void printboard();
     bool checkQuestion();
     bool checkIndexCorrect(int index);
     void trace(int num);
 
     int _board[SIZE];
-    int _ques[SIZE];
     int _zeronum;
     int _zeroarr[SIZE];
     int _solvenum;
