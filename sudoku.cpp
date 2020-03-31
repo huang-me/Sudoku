@@ -2,6 +2,7 @@
 #include <string>
 #include<cstring>
 #include <algorithm>
+#include <vector>
 #include <cstdlib>
 #include <ctime>
 #include "sudoku.h"
@@ -320,7 +321,7 @@ void Sudoku::solve() {
             //     cout << 1 << endl;
             //     printSolve();
             //     break;
-            // default://more than 1 solution
+            // default: more than one solution
             //     cout << 2;
             //     break;
         }
